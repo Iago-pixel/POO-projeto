@@ -6,6 +6,7 @@ class ClienteDAO:
     def __init__(self):
         self.__arquivo = "cliente.json"
         self.__objetos = []
+        self.__abrir()
 
     def inserir(self, obj):
         self.__abrir()

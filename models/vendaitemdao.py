@@ -6,6 +6,7 @@ class VendaItemDAO:
     def __init__(self):
         self.__arquivo = "venda_item.json"
         self.__objetos = []
+        self.__abrir()
 
     def inserir(self, obj):
         self.__abrir()

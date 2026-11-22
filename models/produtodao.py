@@ -6,6 +6,7 @@ class ProdutoDAO:
     def __init__(self):
         self.__arquivo = "produto.json"
         self.__objetos = []
+        self.__abrir()
 
     def inserir(self, obj):
         self.__abrir()

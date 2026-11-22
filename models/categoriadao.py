@@ -6,6 +6,7 @@ class CategoriaDAO:
     def __init__(self):
         self.__arquivo = "categoria.json"
         self.__objetos = []
+        self.__abrir()
 
     def inserir(self, obj):
         self.__abrir()

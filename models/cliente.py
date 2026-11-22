@@ -1,9 +1,9 @@
 class Cliente:
-    def __init__(self, id, n, e, f):
+    def __init__(self, id, nome, email, fone):
         self.id = id
-        self.nome = n
-        self.email = e
-        self.fone = f
+        self.nome = nome
+        self.email = email
+        self.fone = fone
 
     @property
     def id(self):

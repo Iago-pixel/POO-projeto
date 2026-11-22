@@ -1,7 +1,7 @@
 class Categoria:
-    def __init__(self, id, d):
+    def __init__(self, id, descricao):
         self.id = id
-        self.descricao = d
+        self.descricao = descricao
 
     @property
     def id(self):

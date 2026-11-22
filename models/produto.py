@@ -1,10 +1,10 @@
 class Produto:
-    def __init__(self, id, d, p, e, id_cat):
+    def __init__(self, id, descricao, preco, estoque, id_categoria):
         self.id = id
-        self.descricao = d
-        self.preco = p
-        self.estoque = e
-        self.id_categoria = id_cat
+        self.descricao = descricao
+        self.preco = preco
+        self.estoque = estoque
+        self.id_categoria = id_categoria
 
     @property
     def id(self):

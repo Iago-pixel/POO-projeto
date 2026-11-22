@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 1,
+    "descricao": "mesa",
+    "preco": 300.0,
+    "estoque": 2,
+    "id_categoria": 1
+  },
+  {
+    "id": 2,
+    "descricao": "pia",
+    "preco": 75.0,
+    "estoque": 14,
+    "id_categoria": 1
+  }
+]

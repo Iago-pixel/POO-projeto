@@ -1,9 +1,4 @@
-from models.produtodao import ProdutoDAO
-from models.categoriadao import CategoriaDAO
-from models.clientedao import ClienteDAO
-from models.produto import Produto
-from models.categoria import Categoria
-from models.cliente import Cliente
+from service import Service
 
 
 class UI:
@@ -36,6 +31,8 @@ class UI:
             if selecao == 12:
                 cls.produto_excluir()
             if selecao == 13:
+                cls.produto_reajustar()
+            if selecao == 14:
                 break
             input("Aperte enter para continuar...")
 
@@ -51,14 +48,20 @@ class UI:
             i += 1
             print(f"{i} - Excluir {entidade}")
             i += 1
+        print(f"{i} - Reajustar preços dos produtos")
+        i += 1
         print(f"{i} - Finalizar")
         return int(input())
 
     @staticmethod
     def produto_listar():
         print("LISTA DE PRODUTOS")
-        for p in ProdutoDAO().listar():
-            print(p)
+        produtos = Service.produto_listar()
+        if len(produtos) == 0:
+            print("N/A")
+        else:
+            for p in produtos:
+                print(p)
 
     @staticmethod
     def produto_inserir():
@@ -67,16 +70,15 @@ class UI:
         preco = float(input("Informe o preço: "))
         estoque = int(input("Informe o estoque: "))
         id_categoria = int(input("Informe o id da categoria: "))
-        p = Produto(0, descricao, preco, estoque, id_categoria)
-        ProdutoDAO().inserir(p)
+        Service.produto_inserir(descricao, preco, estoque, id_categoria)
 
     @staticmethod
     def produto_atualizar():
         print("ATUALIZAR PRODUTO")
         UI.produto_listar()
 
-        id = int(input("Informe o id do produto a ser atualizado"))
-        p = ProdutoDAO().listar_id(id)
+        id = int(input("Informe o id do produto a ser atualizado: "))
+        p = Service.produto_listar_id(id)
 
         if p == None:
             print("Produto não encontrado!")
@@ -84,7 +86,7 @@ class UI:
 
         print(f"Descrição: {p.descricao}")
         while True:
-            selecao = input("Deseja alterar a descrição? (y/N)")
+            selecao = input("Deseja alterar a descrição? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 descricao = p.descricao
                 break
@@ -94,7 +96,7 @@ class UI:
 
         print(f"Preço: {p.preco}")
         while True:
-            selecao = input("Deseja alterar o preço? (y/N)")
+            selecao = input("Deseja alterar o preço? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 preco = p.preco
                 break
@@ -104,7 +106,7 @@ class UI:
 
         print(f"Estoque: {p.estoque}")
         while True:
-            selecao = input("Deseja alterar o estoque? (y/N)")
+            selecao = input("Deseja alterar o estoque? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 estoque = p.estoque
                 break
@@ -114,7 +116,7 @@ class UI:
 
         print(f"Id da categoria: {p.id_categoria}")
         while True:
-            selecao = input("Deseja alterar o id da categoria? (y/N)")
+            selecao = input("Deseja alterar o id da categoria? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 id_categoria = p.id_categoria
                 break
@@ -122,36 +124,38 @@ class UI:
                 id_categoria = int(input("Informe a novo id da categoria: "))
                 break
 
-        p_atualizado = Produto(id, descricao, preco, estoque, id_categoria)
-        ProdutoDAO().atualizar(p_atualizado)
+        Service.produto_atualizar(id, descricao, preco, estoque, id_categoria)
 
     @staticmethod
     def produto_excluir():
         print("EXCLUIR PRODUTO")
         UI.produto_listar()
         id = int(input("Informe o id do produto ser excluído: "))
-        ProdutoDAO().excluir(id)
+        Service.produto_excluir(id)
 
     @staticmethod
     def categoria_listar():
         print("LISTA DE CATEGORIA")
-        for c in CategoriaDAO().listar():
-            print(c)
+        categorias = Service.categoria_listar()
+        if len(categorias) == 0:
+            print("N/A")
+        else:
+            for c in categorias:
+                print(c)
 
     @staticmethod
     def categoria_inserir():
         print("INSERIR CATEGORIA")
         descricao = input("Informe a descrição: ")
-        c = Categoria(0, descricao)
-        CategoriaDAO().inserir(c)
+        Service.categoria_inserir(descricao)
 
     @staticmethod
     def categoria_atualizar():
         print("ATUALIZAR CATEGORIA")
         UI.categoria_listar()
 
-        id = int(input("Informe o id da categoria a ser atualizado"))
-        c = CategoriaDAO().listar_id(id)
+        id = int(input("Informe o id da categoria a ser atualizado: "))
+        c = Service.categoria_listar_id(id)
 
         if c == None:
             print("Categoria não encontrada!")
@@ -159,7 +163,7 @@ class UI:
 
         print(f"Descrição: {c.descricao}")
         while True:
-            selecao = input("Deseja alterar a descrição? (y/N)")
+            selecao = input("Deseja alterar a descrição? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 descricao = c.descricao
                 break
@@ -167,21 +171,24 @@ class UI:
                 descricao = input("Informe a nova descrição: ")
                 break
 
-        c_atualizado = Categoria(id, descricao)
-        CategoriaDAO().atualizar(c_atualizado)
+        Service.categoria_atualizar(id, descricao)
 
     @staticmethod
     def categoria_excluir():
         print("EXCLUIR CATEGORIA")
         UI.categoria_listar()
         id = int(input("Informe o id da categoria a ser excluído: "))
-        CategoriaDAO().excluir(id)
+        Service.categoria_excluir(id)
 
     @staticmethod
     def cliente_listar():
         print("LISTA DE CLIENTES")
-        for c in ClienteDAO().listar():
-            print(c)
+        clientes = Service.cliente_listar()
+        if len(clientes) == 0:
+            print("N/A")
+        else:
+            for c in clientes:
+                print(c)
 
     @staticmethod
     def cliente_inserir():
@@ -189,16 +196,15 @@ class UI:
         nome = input("Informe o nome: ")
         email = input("Informe o e-mail: ")
         fone = input("Informe o telefone: ")
-        c = Cliente(0, nome, email, fone)
-        ClienteDAO().inserir(c)
+        Service.cliente_inserir(nome, email, fone)
 
     @staticmethod
     def cliente_atualizar():
         print("ATUALIZAR CLIENTE")
         UI.cliente_listar()
 
-        id = int(input("Informe o id do cliente a ser atualizado"))
-        c = ClienteDAO().listar_id(id)
+        id = int(input("Informe o id do cliente a ser atualizado: "))
+        c = Service.cliente_listar_id(id)
 
         if c == None:
             print("Cliente não encontrada!")
@@ -206,7 +212,7 @@ class UI:
 
         print(f"Nome: {c.nome}")
         while True:
-            selecao = input("Deseja alterar o nome? (y/N)")
+            selecao = input("Deseja alterar o nome? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 nome = c.nome
                 break
@@ -216,7 +222,7 @@ class UI:
 
         print(f"E-mail: {c.email}")
         while True:
-            selecao = input("Deseja alterar o e-mail? (y/N)")
+            selecao = input("Deseja alterar o e-mail? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 email = c.email
                 break
@@ -226,7 +232,7 @@ class UI:
 
         print(f"Telefone: {c.fone}")
         while True:
-            selecao = input("Deseja alterar o telefone? (y/N)")
+            selecao = input("Deseja alterar o telefone? (y/N) ")
             if selecao == "N" or selecao == "n" or selecao == "":
                 fone = c.fone
                 break
@@ -234,14 +240,19 @@ class UI:
                 fone = input("Informe o novo telefone: ")
                 break
 
-        c_atualizado = Cliente(id, nome, email, fone)
-        ClienteDAO().atualizar(c_atualizado)
+        Service.cliente_atualizar(id, nome, email, fone)
 
     @staticmethod
     def cliente_excluir():
         print("EXCLUIR CLIENTE")
         UI.cliente_listar()
         id = int(input("Informe o id do cliente a ser excluído: "))
-        ClienteDAO().excluir(id)
+        Service.cliente_excluir(id)
+
+    @staticmethod
+    def produto_reajustar():
+        print("REAJUSTAR PREÇOS DOS PRODUTOS")
+        percentual = int(input("Informe a porcentagem do reajuste: "))
+        Service.produto_reajustar(percentual)
 
 UI.main()

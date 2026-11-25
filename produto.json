@@ -2,15 +2,22 @@
   {
     "id": 1,
     "descricao": "mesa",
-    "preco": 300.0,
-    "estoque": 2,
-    "id_categoria": 1
+    "preco": 450.0,
+    "estoque": 7,
+    "id_categoria": 2
   },
   {
     "id": 2,
     "descricao": "pia",
-    "preco": 75.0,
+    "preco": 112.5,
     "estoque": 14,
-    "id_categoria": 1
+    "id_categoria": 3
+  },
+  {
+    "id": 3,
+    "descricao": "spray verde",
+    "preco": 15.0,
+    "estoque": 10,
+    "id_categoria": 2
   }
 ]
